@@ -21,6 +21,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case stone = 0b100
         case ball = 0b1000
     }
+    
     override func didMove(to view: SKView) {
         scene?.size = view.bounds.size
         scene?.scaleMode = .aspectFill
@@ -59,6 +60,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.physicsBody?.restitution = 1
         ball.physicsBody?.linearDamping = 0
         ball.physicsBody?.angularDamping = 0
+        ball.physicsBody?.velocity = CGVector(dx: 350, dy: 350)
         
         ball.physicsBody?.allowsRotation = false
         ball.physicsBody?.categoryBitMask = bitmasks.ball.rawValue
@@ -101,6 +103,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if paddel.position.x > self.size.width - paddel.size.width / 2 {
             paddel.position.x = self.size.width - paddel.size.width / 2
         }
+        
+        /*
+        // ball y축 속도 고정
+        let velocityY = ball.physicsBody?.velocity.dy ?? 0
+        
+        if velocityY > 450 {
+            ball.physicsBody?.velocity.dy = 400
+        } else if velocityY < 350 {
+            ball.physicsBody?.velocity.dy = 400
+        }
+        
+        // ball x축 속도 고정
+        let velocityX = ball.physicsBody?.velocity.dx ?? 0
+        
+        if velocityX > 450 {
+            ball.physicsBody?.velocity.dx = 400
+        } else if velocityX < 350 {
+            ball.physicsBody?.velocity.dx = 400
+        }*/
     }
     
     func makeStones(reihe: Int, bitmask: UInt32, y: Int, name: String) {
@@ -140,12 +161,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if contactA.categoryBitMask == bitmasks.paddel.rawValue && contactB.categoryBitMask == bitmasks.ball.rawValue {
             if contactB.node!.position.x <= contactA.node!.frame.midX - 5 {
-                contactB.node?.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-                contactB.node?.physicsBody?.applyImpulse(CGVector(dx: -10, dy: 10))
+                //contactB.node?.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+                //contactB.node?.physicsBody?.applyImpulse(CGVector(dx: -10, dy: 10))
             }
             if contactB.node!.position.x > contactA.node!.frame.midX + 5 {
-                contactB.node?.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-                contactB.node?.physicsBody?.applyImpulse(CGVector(dx: 10, dy: -10))
+                //contactB.node?.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+                //contactB.node?.physicsBody?.applyImpulse(CGVector(dx: 10, dy: -10))
             }
         }
     }
